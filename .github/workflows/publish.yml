@@ -18,13 +18,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          registry-url: https://registry.npmjs.org
 
       - run: bun install --frozen-lockfile
 
       - run: npx ng build ngx-m3-calendar --configuration production
-
-      - run: npm whoami 2>/dev/null || true
 
       - run: npm publish --provenance --access public
         working-directory: dist/ngx-m3-calendar
