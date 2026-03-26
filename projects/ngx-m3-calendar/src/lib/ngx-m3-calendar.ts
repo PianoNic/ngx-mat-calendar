@@ -176,10 +176,10 @@ export class MatCalendarComponent implements OnInit {
   }
 
   changeView(mode: CalendarViewMode | string): void {
-    const normalized = mode as CalendarViewMode;
-    if (normalized === this.currentViewMode()) return;
-    this.currentViewMode.set(normalized);
-    this.viewModeChanged.emit(normalized);
+    if (!mode || (mode !== 'day' && mode !== 'week' && mode !== 'month')) return;
+    if (mode === this.currentViewMode()) return;
+    this.currentViewMode.set(mode);
+    this.viewModeChanged.emit(mode);
   }
 
   selectDate(date: Date): void {
