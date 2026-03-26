@@ -1,0 +1,27 @@
+<div class="demo-shell">
+  <header class="demo-header">
+    <div class="demo-header__left">
+      <img src="https://raw.githubusercontent.com/PianoNic/ngx-m3-calendar/master/assets/logo.svg" width="36" alt="logo" />
+      <h1>ngx-m3-calendar</h1>
+    </div>
+    <div class="demo-header__right">
+      <a mat-stroked-button href="https://github.com/PianoNic/ngx-m3-calendar" target="_blank">
+        GitHub
+      </a>
+      <a mat-flat-button href="https://www.npmjs.com/package/ngx-m3-calendar" target="_blank">
+        npm
+      </a>
+    </div>
+  </header>
+
+  <main class="demo-main">
+    <mc-calendar
+      [events]="events"
+      [viewMode]="'week'"
+      [showViewToggle]="true"
+      (eventClicked)="onEventClicked($event)"
+      (viewModeChanged)="onViewChanged($event)"
+      (dateSelected)="onDateSelected($event)"
+    />
+  </main>
+</div>
