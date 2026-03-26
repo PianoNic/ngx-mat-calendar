@@ -242,13 +242,13 @@ export class MatCalendarComponent implements OnInit {
     };
   }
 
-  /** Returns dark or light text color based on background luminance. */
+  /** Returns a readable text color based on background luminance. */
   contrastText(color: string | null | undefined): string | null {
     if (!color) return null;
     const rgb = this.parseHex(color);
     if (!rgb) return null;
     const luminance = (0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b) / 255;
-    return luminance > 0.6 ? '#1a1a1a' : '#ffffff';
+    return luminance > 0.6 ? '#37474f' : '#e8eaed';
   }
 
   /** Returns a color adjusted for the current theme (darkened in dark mode). */
@@ -259,7 +259,14 @@ export class MatCalendarComponent implements OnInit {
     if (this.darkMode()) {
       const luminance = (0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b) / 255;
       if (luminance > 0.5) {
-        return `rgb(${Math.round(rgb.r * 0.35)}, ${Math.round(rgb.g * 0.35)}, ${Math.round(rgb.b * 0.35)})`;
+        // Shift towards a darker, more saturated version
+        const max = Math.max(rgb.r, rgb.g, rgb.b);
+        const factor = 0.45;
+        // Boost the dominant channel slightly to preserve hue
+        const r = Math.round(rgb.r * factor + (rgb.r === max ? 15 : 0));
+        const g = Math.round(rgb.g * factor + (rgb.g === max ? 15 : 0));
+        const b = Math.round(rgb.b * factor + (rgb.b === max ? 15 : 0));
+        return `rgb(${Math.min(r, 255)}, ${Math.min(g, 255)}, ${Math.min(b, 255)})`;
       }
     }
     return color;
