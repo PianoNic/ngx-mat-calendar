@@ -5,6 +5,20 @@
       <h1>ngx-m3-calendar</h1>
     </div>
     <div class="demo-header__right">
+      <button mat-icon-button [matMenuTriggerFor]="themeMenu" matTooltip="Change theme">
+        <mat-icon>palette</mat-icon>
+      </button>
+      <mat-menu #themeMenu="matMenu">
+        @for (theme of themes; track theme.name) {
+          <button mat-menu-item (click)="setTheme(theme)">
+            <span class="theme-dot" [style.background]="theme.primary"></span>
+            {{ theme.name }}
+          </button>
+        }
+      </mat-menu>
+      <button mat-icon-button (click)="toggleDark()" [matTooltip]="isDark() ? 'Light mode' : 'Dark mode'">
+        <mat-icon>{{ isDark() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+      </button>
       <a mat-stroked-button href="https://github.com/PianoNic/ngx-m3-calendar" target="_blank">
         GitHub
       </a>
