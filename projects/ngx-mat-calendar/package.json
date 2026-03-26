@@ -1,0 +1,17 @@
+{
+  "name": "ngx-mat-calendar",
+  "version": "0.1.0",
+  "description": "A Material 3 calendar component for Angular with day, week, and month views",
+  "keywords": ["angular", "material", "calendar", "material3", "m3", "component"],
+  "license": "MIT",
+  "peerDependencies": {
+    "@angular/common": "^19.0.0 || ^20.0.0 || ^21.0.0",
+    "@angular/core": "^19.0.0 || ^20.0.0 || ^21.0.0",
+    "@angular/material": "^19.0.0 || ^20.0.0 || ^21.0.0",
+    "@angular/cdk": "^19.0.0 || ^20.0.0 || ^21.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}

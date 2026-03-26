@@ -7,6 +7,9 @@
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
+    "paths": {
+      "ngx-mat-calendar": ["./dist/ngx-mat-calendar"]
+    },
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
     "isolatedModules": true,
@@ -21,5 +24,13 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": true
   },
-  "files": []
+  "files": [],
+  "references": [
+    {
+      "path": "./projects/ngx-mat-calendar/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/ngx-mat-calendar/tsconfig.spec.json"
+    }
+  ]
 }

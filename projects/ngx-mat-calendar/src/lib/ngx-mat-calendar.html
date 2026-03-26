@@ -1,0 +1,167 @@
+<section class="calendar" aria-label="Calendar component">
+  <header class="calendar__header">
+    <div class="calendar__controls">
+      <button mat-icon-button type="button" (click)="previous()" aria-label="Previous period">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      <button mat-stroked-button type="button" (click)="goToday()">{{ resolvedLabels().today }}</button>
+      <button mat-icon-button type="button" (click)="next()" aria-label="Next period">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+      <div class="calendar__title" aria-live="polite">{{ periodTitle() }}</div>
+    </div>
+    @if (showViewToggle()) {
+      <div class="calendar__view-switcher" aria-label="Select view mode">
+        <mat-button-toggle-group
+          [value]="currentViewMode()"
+          (valueChange)="changeView($event)"
+          aria-label="View switcher"
+        >
+          <mat-button-toggle value="day">{{ resolvedLabels().day }}</mat-button-toggle>
+          <mat-button-toggle value="week">{{ resolvedLabels().week }}</mat-button-toggle>
+          <mat-button-toggle value="month">{{ resolvedLabels().month }}</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    }
+  </header>
+
+  <section class="calendar__body">
+    @switch (currentViewMode()) {
+      @case ('day') {
+        <div class="day-view" aria-label="Day view">
+          <div class="day-view__times">
+            @for (hour of workHours(); track hour.hour) {
+              <div class="time-cell"><span>{{ hour.label }}</span></div>
+            }
+          </div>
+          <div class="day-view__lanes" tabindex="0">
+            @for (hour of workHours(); track hour.hour) {
+              <div class="hour-line"></div>
+            }
+            @if (showTimeLineForDay(activeDate())) {
+              <div class="now-indicator" [style.top.%]="currentTimePosition()"></div>
+            }
+            @for (pe of positionedEventsForDate(activeDate()); track trackByEvent($index, pe.event)) {
+              <div
+                class="positioned-event"
+                tabindex="0"
+                role="button"
+                [style.top.%]="pe.top"
+                [style.height.%]="pe.height"
+                [style.left.%]="pe.left"
+                [style.width.%]="pe.width"
+                [style.background]="pe.event.color || null"
+                (click)="openEvent(pe.event)"
+                (keydown.enter)="openEvent(pe.event)"
+                [attr.aria-label]="pe.event.title + ' ' + formatEventTime(pe.event)"
+                matTooltip="{{ pe.event.title }} | {{ formatEventTime(pe.event) }}"
+              >
+                <span class="event-line__time">{{ formatEventTime(pe.event) }}</span>
+                <span class="event-line__title">{{ pe.event.title }}</span>
+              </div>
+            }
+          </div>
+        </div>
+        @if (eventsForDate(activeDate()).length === 0) {
+          <div class="empty-state" role="status">{{ resolvedLabels().noEvents }}</div>
+        }
+      }
+      @case ('week') {
+        <div class="week-view" aria-label="Week view">
+          <div class="week-view__header">
+            <div class="week-time-spacer"></div>
+            @for (day of weekDays(); track trackByDate($index, day)) {
+              <div class="week-day" [class.is-today]="isToday(day)">
+                <div class="week-day__name">{{ formatDayLabel(day) }}</div>
+                <div class="week-day__date">{{ formatDateLabel(day) }}</div>
+              </div>
+            }
+          </div>
+          <div class="week-view__grid">
+            <div class="week-time-labels">
+              @for (hour of workHours(); track hour.hour) {
+                <div class="time-cell"><span>{{ hour.label }}</span></div>
+              }
+            </div>
+            @for (day of weekDays(); track trackByDate($index, day)) {
+              <div class="week-column" [class.is-today]="isToday(day)">
+                @for (hour of workHours(); track hour.hour) {
+                  <div class="hour-line"></div>
+                }
+                @if (showTimeLineForDay(day)) {
+                  <div class="now-indicator" [style.top.%]="currentTimePosition()"></div>
+                }
+                @for (pe of positionedEventsForDate(day); track trackByEvent($index, pe.event)) {
+                  <div
+                    class="positioned-event positioned-event--compact"
+                    tabindex="0"
+                    role="button"
+                    [style.top.%]="pe.top"
+                    [style.height.%]="pe.height"
+                    [style.left.%]="pe.left"
+                    [style.width.%]="pe.width"
+                    [style.background]="pe.event.color || null"
+                    (click)="openEvent(pe.event)"
+                    (keydown.enter)="openEvent(pe.event)"
+                    [attr.aria-label]="pe.event.title + ' ' + formatEventTime(pe.event)"
+                    matTooltip="{{ pe.event.title }} | {{ formatEventTime(pe.event) }}"
+                  >
+                    <span class="event-line__time">{{ formatEventTime(pe.event) }}</span>
+                    <span class="event-line__title">{{ pe.event.title }}</span>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      }
+      @case ('month') {
+        <div class="month-view" aria-label="Month view">
+          <div class="month-view__weekdays">
+            @for (label of resolvedLabels().weekdays; track $index) {
+              <div class="weekday-label">{{ label }}</div>
+            }
+          </div>
+          <div class="month-view__weeks">
+            @for (week of monthGrid(); track $index) {
+              <div class="month-week">
+                @for (day of week; track trackByDay($index, day)) {
+                  @let dayEvents = eventsForDate(day.date);
+                  <div
+                    class="month-day"
+                    role="gridcell"
+                    [class.is-outside]="!day.inCurrentMonth"
+                    [class.is-today]="isToday(day.date)"
+                    [attr.aria-label]="formatDateLabel(day.date) + ' has ' + dayEvents.length + ' events'"
+                  >
+                    <span class="month-day__number">{{ day.date.getDate() }}</span>
+                    @if (dayEvents.length > 0) {
+                      <div class="month-day__events">
+                        @for (event of dayEvents; track trackByEvent($index, event)) {
+                          <div
+                            class="month-day__event-line"
+                            tabindex="0"
+                            role="button"
+                            [style.background]="event.color || null"
+                            (click)="openEvent(event)"
+                            (keydown.enter)="openEvent(event)"
+                            [attr.aria-label]="event.title + ' ' + formatEventTime(event)"
+                          >
+                            @if (!event.isAllDay) {
+                              <span class="event-line__time">{{ event.start | date: 'HH:mm' }}</span>
+                            }
+                            <span class="event-line__title">{{ truncateText(event.title, 20) }}</span>
+                          </div>
+                        }
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      }
+    }
+  </section>
+</section>

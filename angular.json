@@ -6,5 +6,31 @@
   },
   "newProjectRoot": "projects",
   "projects": {
+    "ngx-mat-calendar": {
+      "projectType": "library",
+      "root": "projects/ngx-mat-calendar",
+      "sourceRoot": "projects/ngx-mat-calendar/src",
+      "prefix": "mc",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-mat-calendar/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ngx-mat-calendar/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/ngx-mat-calendar/tsconfig.spec.json"
+          }
+        }
+      }
+    }
   }
 }
