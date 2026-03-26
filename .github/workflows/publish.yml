@@ -26,5 +26,3 @@ jobs:
 
       - run: npm publish --provenance --access public
         working-directory: dist/ngx-m3-calendar
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
