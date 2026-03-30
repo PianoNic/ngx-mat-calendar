@@ -8,9 +8,9 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/ngx-m3-calendar"><img src="https://img.shields.io/npm/v/ngx-m3-calendar?color=5558d9" alt="npm version"/></a>
-  <a href="https://github.com/PianoNic/ngx-m3-calendar/blob/main/LICENSE"><img src="https://img.shields.io/github/license/PianoNic/ngx-m3-calendar?color=5558d9"/></a>
-  <a href="https://www.npmjs.com/package/ngx-m3-calendar"><img src="https://img.shields.io/npm/dm/ngx-m3-calendar?color=5558d9" alt="npm downloads"/></a>
+  <a href="https://www.npmjs.com/package/ngx-m3-calendar"><img src="https://img.shields.io/npm/v/ngx-m3-calendar?color=c87941" alt="npm version"/></a>
+  <a href="https://github.com/PianoNic/ngx-m3-calendar/blob/main/LICENSE"><img src="https://img.shields.io/github/license/PianoNic/ngx-m3-calendar?color=c87941"/></a>
+  <a href="https://www.npmjs.com/package/ngx-m3-calendar"><img src="https://img.shields.io/npm/dm/ngx-m3-calendar?color=c87941" alt="npm downloads"/></a>
 </p>
 
 <p align="center">
